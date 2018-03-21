@@ -1,3 +1,4 @@
+// RPC server waiting for rpc calls
 package main
 
 import (
