@@ -1,4 +1,4 @@
-// RPC server waiting for any rpc calls
+// Basic RPC server waiting for any rpc calls
 package main
 
 import (
