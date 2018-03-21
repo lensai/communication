@@ -1,4 +1,4 @@
-// RPC server waiting for rpc calls
+// RPC server waiting for any rpc calls
 package main
 
 import (
@@ -43,7 +43,6 @@ func main() {
 	arith := new(Arith)
 	rpc.Register(arith)
 
-	// SIn TLS
 	tcpAddr, err := net.ResolveTCPAddr("tcp", "155.210.155.74:8000")
 	checkError(err)
 
