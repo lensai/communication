@@ -1,0 +1,48 @@
+package main
+
+import (
+	"net"
+	"log"
+	"net/rpc"
+)
+
+type Args struct {
+	A, B int
+}
+
+type Quotient struct {
+	Quo, Rem int
+}
+
+func op(client *rpc.Client, a, b int) *rpc.Call {
+	// Asynchronous call
+	var reply int
+	args := Args{a, b}
+
+    call := client.Go("Arith.Add", args, &reply, nil)
+    
+    return mulCall
+}
+
+func main() {
+	conn, err := net.Dial("tcp", "155.210.155.74:8000")
+	//client, err := rpc.Dial("tcp", service)
+	if err != nil {
+		log.Fatal("dialing:", err)
+	}
+	defer conn.Close()
+	log.Println("client: connected to: ", conn.RemoteAddr())
+
+	client := rpc.NewClient(conn)
+
+	const n = 55000
+	var futures [n]*rpc.Call
+	for i := 0; i < n; i++ {
+		futures[i] = op(client, i, 7)
+	}
+	//var replyCall *rpc.Call
+	for i := 1; i < n; i++ {
+		_ = <-futures[i].Done
+		//fmt.Printf("Arith: %d*%d=%d\n", 17, 7, *replyCall.Reply.(*int))
+	}
+}
